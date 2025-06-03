@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addTask } from '../features/tasks/tasksSlice';
 import { Form, Button } from 'react-bootstrap';
-import './GoalForm.css'; // Para el CSS externo
 
-const GoalForm = ({ addGoal }) => {
+const GoalForm = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [dueDate, setDueDate] = useState('');
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addGoal({ name, description, dueDate });
+    if (!name || !description || !dueDate) return;
+    dispatch(addTask({ name, description, dueDate }));
     setName('');
     setDescription('');
     setDueDate('');
@@ -17,32 +20,28 @@ const GoalForm = ({ addGoal }) => {
 
   return (
     <Form onSubmit={handleSubmit} className="goal-form">
-      <Form.Group>
-        <Form.Control
-          type="text"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-      </Form.Group>
-      <Form.Group>
-        <Form.Control
-          type="text"
-          placeholder="Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-      </Form.Group>
-      <Form.Group>
-        <Form.Control
-          type="date"
-          placeholder="Due Date"
-          value={dueDate}
-          onChange={(e) => setDueDate(e.target.value)}
-        />
-      </Form.Group>
-      <Button variant="primary" type="submit" className="add-goal-btn">
-        ADD GOAL
+      <Form.Control
+        type="text"
+        placeholder="Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        className="mb-2"
+      />
+      <Form.Control
+        type="text"
+        placeholder="Description"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        className="mb-2"
+      />
+      <Form.Control
+        type="date"
+        value={dueDate}
+        onChange={(e) => setDueDate(e.target.value)}
+        className="mb-2"
+      />
+      <Button type="submit" variant="primary" className="w-100">
+        Add Goal
       </Button>
     </Form>
   );
