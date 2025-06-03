@@ -1,26 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteTask } from './tasksSlice';
+import { fetchGoals, deleteGoal } from './tasksSlice';
 import { Card, Button } from 'react-bootstrap';
 
 const TaskList = () => {
-  const tasks = useSelector((state) => state.tasks);
+  const goals = useSelector((state) => state.tasks);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchGoals());
+  }, [dispatch]);
 
   return (
     <div className="task-list">
-      {tasks.map((task, index) => (
-        <Card key={index} className="mb-3 goal-card">
+      {goals.map((goal) => (
+        <Card key={goal.id} className="mb-3 goal-card">
           <Card.Body>
-            <Card.Title>{task.name}</Card.Title>
+            <Card.Title>{goal.name}</Card.Title>
             <Card.Text>
-              <strong>Description:</strong> {task.description}<br />
-              <strong>Due:</strong> {task.dueDate}
+              <strong>Description:</strong> {goal.description}<br />
+              <strong>Due:</strong> {goal.dueDate}
             </Card.Text>
-            <Button
-              variant="danger"
-              onClick={() => dispatch(deleteTask(index))}
-            >
+            <Button variant="danger" onClick={() => dispatch(deleteGoal(goal.id))}>
               Delete
             </Button>
           </Card.Body>

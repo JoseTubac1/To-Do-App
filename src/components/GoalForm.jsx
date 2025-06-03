@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addTask } from '../features/tasks/tasksSlice';
+import { addGoal } from '../features/tasks/tasksSlice';
 import { Form, Button } from 'react-bootstrap';
 
 const GoalForm = () => {
@@ -11,8 +11,7 @@ const GoalForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!name || !description || !dueDate) return;
-    dispatch(addTask({ name, description, dueDate }));
+    dispatch(addGoal({ name, description, dueDate }));
     setName('');
     setDescription('');
     setDueDate('');
@@ -20,29 +19,10 @@ const GoalForm = () => {
 
   return (
     <Form onSubmit={handleSubmit} className="goal-form">
-      <Form.Control
-        type="text"
-        placeholder="Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        className="mb-2"
-      />
-      <Form.Control
-        type="text"
-        placeholder="Description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        className="mb-2"
-      />
-      <Form.Control
-        type="date"
-        value={dueDate}
-        onChange={(e) => setDueDate(e.target.value)}
-        className="mb-2"
-      />
-      <Button type="submit" variant="primary" className="w-100">
-        Add Goal
-      </Button>
+      <Form.Control type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} className="mb-2" />
+      <Form.Control type="text" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} className="mb-2" />
+      <Form.Control type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} className="mb-2" />
+      <Button type="submit" variant="primary" className="w-100">Add Goal</Button>
     </Form>
   );
 };
